@@ -4,12 +4,12 @@ import {getFirestore} from 'firebase/firestore/lite';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBrPlfIdzj-YSXHh5stkzqU642RNa-xW5k',
-  authDomain: 'mobile-c2254.firebaseapp.com',
-  projectId: 'mobile-c2254',
-  storageBucket: 'mobile-c2254.appspot.com',
-  messagingSenderId: '237614622753',
-  appId: '1:237614622753:web:01838fb04d00e1e92cdb60',
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
 };
 
 // Initialize Firebase
