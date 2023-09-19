@@ -3,7 +3,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Alert, Button, Text, TextInput, View} from 'react-native';
 import {ZodType, z} from 'zod';
 
 interface FormData {
@@ -59,6 +59,7 @@ export const SignUp = () => {
 
       console.log('success!');
     } catch (err: any) {
+      Alert.alert(err.message);
       setError(err.message);
     }
   };

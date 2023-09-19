@@ -8,13 +8,7 @@ import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-} from 'firebase/firestore/lite';
+import {collection, getDocs} from 'firebase/firestore/lite';
 
 export const Main = () => {
   const {user} = useSelector((state: RootState) => state.user);
@@ -30,30 +24,22 @@ export const Main = () => {
   };
 
   const create = async () => {
-    const docRef = doc(FIREBASE_DB, `favs/${user?.uid}`);
-    const query = await getDoc(docRef);
-    if (query.exists()) {
-      const previous = query.data();
-      await setDoc(docRef, {...previous, lol: 30});
-      console.log('agregado!');
-    } else {
-      await setDoc(docRef, {jajaa: '300'});
-      console.log('creado!');
-    }
+    // const docRef = doc(FIREBASE_DB, `favs/${user?.uid}`);
+    // const query = await getDoc(docRef);
+    // console.log(query);
+    // if (query.exists()) {
+    //   const previous = query.data();
+    //   await setDoc(docRef, {...previous, lol: 30});
+    //   console.log('agregado!');
+    // } else {
+    //   await setDoc(docRef, {jajaa: '300'});
+    //   console.log('creado!');
+    // }
   };
 
   return (
     <View style={styles.container}>
       {/* // ?: 1 */}
-
-      <Button
-        title="xd"
-        onPress={() => {
-          console.log('a');
-          idk();
-          create();
-        }}
-      />
       <Text style={styles.title}>PokeFav</Text>
       {user ? <UserView /> : <AnonymousView />}
     </View>

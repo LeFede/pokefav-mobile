@@ -1,9 +1,11 @@
 import {FIREBASE_AUTH} from '@/config/firebase';
+import {resetFav, setFav} from '@/redux';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Text, TextInput, View} from 'react-native';
+import {Alert, Button, Text, TextInput, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {ZodType, z} from 'zod';
 
 interface FormData {
@@ -26,7 +28,12 @@ export const LogIn = () => {
     control,
   } = useForm<FormData>({resolver: zodResolver(schema), mode: 'onChange'});
 
+  const dispatch = useDispatch();
+
   const [error, setError] = useState('');
+  useEffect(() => {
+    dispatch(resetFav());
+  }, []);
 
   const onSubmit = async (formData: FormData) => {
     try {
@@ -36,8 +43,10 @@ export const LogIn = () => {
         formData.password,
       );
     } catch (err: any) {
-      if (err.message.includes('auth/invalid-login-credentials'))
+      if (err.message.includes('auth/invalid-login-credentials')) {
+        Alert.alert('Invalid login credentials');
         return setError('Invalid login credentials');
+      }
     }
   };
 

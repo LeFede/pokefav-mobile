@@ -1,5 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {User} from 'firebase/auth';
+import {FIREBASE_AUTH} from '@/config/firebase';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {User, signOut} from 'firebase/auth';
 
 interface Initial {
   user: User | null;
@@ -9,14 +10,9 @@ const initialState: Initial = {
   user: null,
 };
 
-// const api = 'https://pokeapi.co/api/v2/pokemon?limit=20';
-
-// export const fetchPokemons = createAsyncThunk('pokemon/fetch', async () => {
-//   const res = await fetch(api);
-//   const data = await res.json();
-
-//   return data.results;
-// });
+export const logOutUser = createAsyncThunk('user/logout', async () => {
+  await signOut(FIREBASE_AUTH);
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -25,11 +21,17 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    logOut: (state, action) => {
+      state.user = null;
+    },
   },
   extraReducers: builder => {
     // builder.addCase(fetchPokemons.fulfilled, (state, action) => {
     // state.pokemons = action.payload;
     // });
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      state.user = null;
+    });
   },
 });
 

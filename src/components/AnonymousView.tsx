@@ -10,12 +10,16 @@ export const AnonymousView = () => {
       {login ? (
         <>
           <LogIn />
-          <Button title="sign up" onPress={() => setLogin(!login)}></Button>
+          <Button
+            title="Go to signup view => "
+            onPress={() => setLogin(!login)}></Button>
         </>
       ) : (
         <>
           <SignUp />
-          <Button title="login" onPress={() => setLogin(!login)}></Button>
+          <Button
+            title="Go to login view => "
+            onPress={() => setLogin(!login)}></Button>
         </>
       )}
     </>
