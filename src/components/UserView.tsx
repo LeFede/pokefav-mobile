@@ -1,10 +1,11 @@
 import {fetchFavs, logOutUser, resetFav, setFav} from '@/redux';
 import {store} from '@/redux/store';
 import {AppDispatch} from '@/types';
-import {useEffect} from 'react';
-import {Button, FlatList, Text} from 'react-native';
+import {useEffect, useState} from 'react';
+import {Button, FlatList, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ListItem} from './ListItem';
+import {theme} from '@/theme';
 
 export interface Pokemon {
   name: string;
@@ -21,6 +22,7 @@ export const UserView = () => {
   const {user} = useSelector((state: RootState) => state.user);
   const {pokemons, favs} = useSelector((state: RootState) => state.pokemon);
   const dispatch = useDispatch<AppDispatch>();
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     console.log(favs);
@@ -34,13 +36,25 @@ export const UserView = () => {
 
   return (
     <>
-      <Button
-        title="Log out"
-        onPress={() => {
-          dispatch(logOutUser());
-        }}
-      />
-      <Text>Hola {user?.email}</Text>
+      <View style={[styles.menu, showMenu ? styles.show : styles.hide]}>
+        <Button
+          title="Log out"
+          onPress={() => {
+            dispatch(logOutUser());
+          }}
+        />
+        <Text>Hola {user?.email}</Text>
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="MOBILE"
+          onPress={() => {
+            setShowMenu(!showMenu);
+          }}
+        />
+      </View>
+
       <FlatList
         data={pokemons}
         ItemSeparatorComponent={Separator}
@@ -56,3 +70,27 @@ export const UserView = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    // display: 'none',
+    position: 'absolute',
+    right: 0,
+    bottom: 150,
+    margin: 30,
+    zIndex: 1,
+  },
+  hide: {
+    left: '-150%',
+  },
+  show: {
+    left: 0,
+  },
+  menu: {
+    position: 'absolute',
+    zIndex: 1,
+    backgroundColor: theme.colors.blue,
+    height: '100%',
+    padding: 30,
+  },
+});
